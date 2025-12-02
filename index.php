@@ -1,16 +1,16 @@
 <?php
 // Handle form submission
+require 'db.php';
+
 $errors = [];
 $success = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Collect and sanitize input
     $name = htmlspecialchars(trim($_POST['name']));
     $email = htmlspecialchars(trim($_POST['email']));
     $password = trim($_POST['password']);
 
-    // Simple validation
     if (empty($name)) {
         $errors[] = "Name is required.";
     }
@@ -25,11 +25,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Password must be at least 6 characters long.";
     }
 
-    // If no errors → success message
     if (empty($errors)) {
         $success = "Signup successful! (Mock — no database yet)";
     }
 }
+
+    // If no errors → hash password and success message
+    if (empty($errors)) {
+        // Hash the password securely
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    try {
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt->execute([$name, $email, $hashedPassword]);
+
+        $success = "Signup successful! Your account has been created.";
+
+    } catch (PDOException $e) {
+        // Handle duplicate email or other DB errors
+        if ($e->getCode() == 23000) {
+            $errors[] = "Email already exists.";
+        } else {
+            $errors[] = "Database error: " . $e->getMessage();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
