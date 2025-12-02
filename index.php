@@ -1,4 +1,7 @@
 <?php
+// Variables begin with the $ symbol
+// e.g $age = 14  or $name = "John"
+// echo is used as an output for example 'print' in javascript
 // Handle form submission
 require 'db.php';
 
@@ -30,14 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-    // If no errors → hash password and success message
-    if (empty($errors)) {
-        // Hash the password securely
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    }
-
     try {
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO Users (name, email, password) VALUES (?, ?, ?)");
         $stmt->execute([$name, $email, $hashedPassword]);
 
         $success = "Signup successful! Your account has been created.";
