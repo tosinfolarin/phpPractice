@@ -3,7 +3,7 @@
 // e.g $age = 14  or $name = "John"
 // echo is used as an output for example 'print' in javascript
 // Handle form submission
-require 'db.php';
+// require 'db.php';
 
 $errors = [];
 $success = "";
@@ -33,20 +33,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO Users (name, email, password) VALUES (?, ?, ?)");
-        $stmt->execute([$name, $email, $hashedPassword]);
+    // try {
+    //     $stmt = $pdo->prepare("INSERT INTO Users (name, email, password) VALUES (?, ?, ?)");
+    //     $stmt->execute([$name, $email, $hashedPassword]);
 
-        $success = "Signup successful! Your account has been created.";
+    //     $success = "Signup successful! Your account has been created.";
 
-    } catch (PDOException $e) {
-        // Handle duplicate email or other DB errors
-        if ($e->getCode() == 23000) {
-            $errors[] = "Email already exists.";
-        } else {
-            $errors[] = "Database error: " . $e->getMessage();
-        }
-    }
+    // } catch (PDOException $e) {
+    //     // Handle duplicate email or other DB errors
+    //     if ($e->getCode() == 23000) {
+    //         $errors[] = "Email already exists.";
+    //     } else {
+    //         $errors[] = "Database error: " . $e->getMessage();
+    //     }
+    // }
 ?>
 
 <!DOCTYPE html>
