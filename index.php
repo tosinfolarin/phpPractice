@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (empty($errors)) {
         $success = "Signup successful! (Mock — no database yet)";
-    }
+    } 
 }
 
     // try {
